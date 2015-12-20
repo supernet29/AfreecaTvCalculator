@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset = 'utf-8'>
+	<title>별풍계산기</title>
+	<script>
+		//constant var
+		var normal_unit_price = 60;
+		var best_unit_price = 70;
+		var tax_rate = 3.3;
+		
+		//option var
+		var chk_best_bj;
+		//input var
+		var item_number;
+		var get_result_button;
+		//result var
+		var calc_result; 
+
+		function document_onLoad()
+		{
+			chk_best_bj = document.getElementById("chk_best_bj");
+			item_number = document.getElementById("item_number");
+			get_result_button = document.getElementById("get_result_button");
+			calc_result = document.getElementById("calc_result");
+		}
+
+		//function
+		var calc = function (){
+			var number = get_item_number(item_number);
+			var unit_price = get_unit_price();
+		
+			if(number == NaN || number < 0)
+			{
+				alert("입력값이 잘못되었습니다.");
+				return NaN;
+			}
+			
+			return (number * unit_price) * (1 - tax_rate/100);
+		}
+
+		function get_item_number(input_control)
+		{
+			var type = typeof input_control.value;
+			var value;
+			switch(type)
+			{
+				case "string":
+				value = parseInt(input_control.value);
+				break;
+				
+				case "number":
+				value = input_control.value;
+				break;
+	
+				default:
+				value = NaN;
+			}
+			return value;
+		}		
+		
+		function get_unit_price()
+		{
+			var is_best = chk_best_bj.checked;
+			if(is_best)
+				return best_unit_price;
+			else
+				return normal_unit_price;
+		}
+
+		function calc_button_click()
+		{
+			var result = calc();
+			if(result == NaN)
+				calc_result.innerHTML = "입력값이 잘못되었습니다";
+			else
+				calc_result.innerHTML = result.toString() + "원";
+		}
+		
+	</script>
+	<style>
+		.result {
+			font-size: 15pt;
+			font-weight: bold;
+		}
+		.result_div {
+			display:inline-block;
+			margin-top: 20px;
+		}
+	</style>
+</head>
+<body onload = "document_onLoad()">
+	<h1>별풍선 계산기</h1>
+	<div class = 'option'>
+		<h2>옵션 선택</h2>
+		<input id = 'chk_best_bj' type = 'checkbox'>베스트BJ
+	</div>
+	<div class = 'input'>
+		<h2>풍선수 입력</h2>
+		<input type = 'number' id = 'item_number'>
+		<input type = 'button' id = 'get_result_button' value = '계산하기' onclick = 'calc_button_click()'>
+	</div>
+	<span class = 'result result_div'>
+		결과:
+		<span id  = 'calc_result' class = 'result'>
+		</span>
+	</span>
+	<div class = 'foot'>
+		<p> This page is written by 흑주乃(woochankim200@gmail.com)</p>
+		<p> This page is licensed MIT license </p>
+	</div>
+</body>
+</html>
